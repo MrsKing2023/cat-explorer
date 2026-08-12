@@ -1,12 +1,8 @@
 const BASE_URL = 'https://api.thecatapi.com/v1';
 const API_KEY = import.meta.env.VITE_CAT_API_KEY;
 
-/**
- * Fetches data from TheCatAPI.
- * @param {string} endpoint - e.g. '/breeds' or '/images/search'
- * @param {Object} params - query params, e.g. { breed_id: 'abys', limit: 10 }
- * @returns {Promise<any>} parsed JSON response
- */
+// shared fetch function so I'm not repeating the same headers/error handling
+// in main.js and breed-detail.js
 export async function fetchCatData(endpoint, params = {}) {
   const url = new URL(`${BASE_URL}${endpoint}`);
 

@@ -3,7 +3,7 @@ import { fetchCatData } from './api.js';
 
 const container = document.getElementById('detail-container');
 
-// Read the breed id from the URL, e.g. breed.html?id=abys
+// grab the id off the query string, e.g. breed.html?id=abys
 const params = new URLSearchParams(window.location.search);
 const breedId = params.get('id');
 
@@ -14,7 +14,8 @@ async function loadBreedDetail() {
   }
 
   try {
-    // First request: get this breed's full info
+    // TheCatAPI doesn't have a single "get breed by id" endpoint,
+    // so pull the full list and find the one we need
     const breeds = await fetchCatData('/breeds');
     const breed = breeds.find((b) => b.id === breedId);
 
@@ -23,7 +24,8 @@ async function loadBreedDetail() {
       return;
     }
 
-    // Second request: get images for this specific breed
+    // this is the second, separate request - only fires for the breed
+    // actually being viewed, not for every breed up front
     const images = await fetchCatData('/images/search', {
       breed_id: breedId,
       limit: 6,
